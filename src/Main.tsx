@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Btn from './components/Btn';
 import InputBox from './components/InputBox';
+import FormCheckBox from './components/FormCheckBox';
 
 function Main(): React.JSX.Element {
   return (
@@ -10,6 +11,7 @@ function Main(): React.JSX.Element {
         <Text style={styles.txt}>Password Generator</Text>
       </View>
       <InputBox />
+      <FormCheckBox />
     </View>
   );
 }

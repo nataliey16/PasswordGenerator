@@ -4,7 +4,13 @@ import {View, Text, StyleSheet, TextInput} from 'react-native';
 function InputBox(): React.JSX.Element {
   return (
     <View>
-      <TextInput style={styles.inputBox} value="Password Length (8-16)" />
+      <TextInput
+        style={styles.inputBox}
+        placeholder="Password Length (8-16)"
+        //value={}
+        maxLength={2}
+        //onChangeText={}
+      />
     </View>
   );
 }
