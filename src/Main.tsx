@@ -3,6 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import Btn from './components/Btn';
 import InputBox from './components/InputBox';
 import FormCheckBox from './components/FormCheckBox';
+import Output from './components/Output';
 
 function Main(): React.JSX.Element {
   return (
@@ -11,7 +12,13 @@ function Main(): React.JSX.Element {
         <Text style={styles.txt}>Password Generator</Text>
       </View>
       <InputBox />
-      <FormCheckBox />
+      <FormCheckBox id={1} color="#82c2e7" label="Upper Case Letter" />
+      <FormCheckBox id={2} color="#91a696" label="Lower Case Letter" />
+      <FormCheckBox id={3} color="#fd915a" label="Special Character" />
+      <FormCheckBox id={4} color="#cc76ee" label="Numbers" />
+      <Output placeholder="Select Options..." />
+      <Btn type={1} title="Generate Password" />
+      <Btn type={2} title="Reset" />
     </View>
   );
 }
