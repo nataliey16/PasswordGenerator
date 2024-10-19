@@ -6,16 +6,19 @@ type formCheckBoxPropTypes = {
   id: number;
   label: string;
   color: string;
+  isChecked: boolean;
 };
 
 function FormCheckBox(props: formCheckBoxPropTypes): React.JSX.Element {
   const id = props.id;
   const label = props.label;
   const color = props.color;
+  const isChecked = props.isChecked;
 
   return (
     <View style={styles.checkboxView}>
       <BouncyCheckbox
+        isChecked={isChecked}
         size={25}
         fillColor={color}
         unFillColor="#FFFFFF"
