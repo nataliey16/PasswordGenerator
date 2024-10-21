@@ -5,34 +5,56 @@ import InputBox from './components/InputBox';
 import FormCheckBox from './components/FormCheckBox';
 import Output from './components/Output';
 import {showErrorSnackbar, showSuccessSnackBar} from './utility/utils';
+import {generatePasswordString} from './utility/passwordGenerator'; // Importing password generation function
 
 function Main(): React.JSX.Element {
   const [passwordLength, setPasswordLength] = useState('');
-  const [isChecked, setIsChecked] = useState(false);
-  const [isUpperChecked, setIsUpperChecked] = useState(false);
-  const [isLowerChecked, setIsLowerChecked] = useState(false);
-  const [isSpecialChecked, setIsSpecialChecked] = useState(false);
-  const [isNumberChecked, setIsNumberChecked] = useState(false);
+  const [checkboxVal, setCheckboxVal] = useState(false);
+  const [upperCheckboxVal, setUpperCheckboxVal] = useState(false);
+  const [lowerCheckboxVal, setLowerCheckboxVal] = useState(false);
+  const [specialCheckboxVal, setSpecialCheckboxVal] = useState(false);
+  const [numberCheckboxVal, setNumberCheckboxVal] = useState(false);
+  const [generatedPassword, setGeneratedPassword] = useState('');
 
   const handleGeneratePassword = () => {
     const numericLength = Number(passwordLength); //Convert input into a number
-    if (!isNaN(numericLength) && numericLength >= 8 && numericLength <= 16) {
-      console.log(numericLength);
-      showSuccessSnackBar('Valid');
-    } else {
-      showErrorSnackbar('Invalid length value');
+
+    if (isNaN(numericLength) || numericLength < 8 || numericLength > 16) {
+      showErrorSnackbar('Invalid length value. It must be between 8 and 16.');
+      return;
     }
 
-    //check if checkboxes are checked
+    // Check if at least one option is selected
     if (
-      !isUpperChecked ||
-      !isLowerChecked ||
-      !isSpecialChecked ||
-      isNumberChecked
+      upperCheckboxVal ||
+      lowerCheckboxVal ||
+      specialCheckboxVal ||
+      numberCheckboxVal
+      // !isLowerChecked &&
+      // !isSpecialChecked &&
+      // !isNumberChecked
     ) {
+      showSuccessSnackBar('You made a selection');
+    } else {
       showErrorSnackbar('Make a selection');
+      return;
     }
+
+    // const handleReset = () => {
+    //   setPasswordLength('');
+    //   setIsUpperChecked(false);
+    //   setIsLowerChecked(false);
+    //   setIsSpecialChecked(false);
+    //   setIsNumberChecked(false);
+    //   setGeneratedPassword('');
   };
+
+  const updateCheckedStatus = (status: boolean) => {
+    console.log(`Checked Status: ${status}`);
+    // setCheckboxVal(status);
+    setUpperCheckboxVal(status);
+  };
+
   return (
     <View>
       <View style={styles.titleView}>
@@ -46,27 +68,34 @@ function Main(): React.JSX.Element {
         id={1}
         color="#82c2e7"
         label="Upper Case Letter"
-        isChecked={isChecked}
+        checkedStatus={upperCheckboxVal}
+        updateCheckedStatus={updateCheckedStatus}
       />
       <FormCheckBox
         id={2}
         color="#91a696"
         label="Lower Case Letter"
-        isChecked={isChecked}
+        checkedStatus={checkboxVal}
+        updateCheckedStatus={updateCheckedStatus}
       />
       <FormCheckBox
         id={3}
         color="#fd915a"
         label="Special Character"
-        isChecked={isChecked}
+        checkedStatus={checkboxVal}
+        updateCheckedStatus={updateCheckedStatus}
       />
       <FormCheckBox
         id={4}
         color="#cc76ee"
         label="Numbers"
-        isChecked={isChecked}
+        checkedStatus={checkboxVal}
+        updateCheckedStatus={updateCheckedStatus}
       />
-      <Output placeholder="Select Options..." />
+      <Output
+        placeholder="Select Options..."
+        generatedPassword={generatedPassword}
+      />
       <Btn
         type={1}
         title="Generate Password"
