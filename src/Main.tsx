@@ -9,12 +9,25 @@ import {generatePasswordString} from './utility/passwordGenerator'; // Importing
 
 function Main(): React.JSX.Element {
   const [passwordLength, setPasswordLength] = useState('');
-  const [checkboxVal, setCheckboxVal] = useState(false);
-  const [upperCheckboxVal, setUpperCheckboxVal] = useState(false);
-  const [lowerCheckboxVal, setLowerCheckboxVal] = useState(false);
-  const [specialCheckboxVal, setSpecialCheckboxVal] = useState(false);
-  const [numberCheckboxVal, setNumberCheckboxVal] = useState(false);
+  const [checkboxVal, setCheckboxVal] = useState({
+    upper: false,
+    lower: false,
+    special: false,
+    number: false,
+  });
+
   const [generatedPassword, setGeneratedPassword] = useState('');
+
+  const handleReset = () => {
+    setPasswordLength('');
+    setCheckboxVal({
+      upper: false,
+      lower: false,
+      special: false,
+      number: false,
+    });
+    setGeneratedPassword('');
+  };
 
   const handleGeneratePassword = () => {
     const numericLength = Number(passwordLength); //Convert input into a number
@@ -25,34 +38,34 @@ function Main(): React.JSX.Element {
     }
 
     // Check if at least one option is selected
-    if (
-      upperCheckboxVal ||
-      lowerCheckboxVal ||
-      specialCheckboxVal ||
-      numberCheckboxVal
-      // !isLowerChecked &&
-      // !isSpecialChecked &&
-      // !isNumberChecked
-    ) {
+    const isAnyCheckBoxSelected = Object.values(checkboxVal).some(val => val);
+
+    if (isAnyCheckBoxSelected) {
       showSuccessSnackBar('You made a selection');
     } else {
       showErrorSnackbar('Make a selection');
       return;
     }
 
-    // const handleReset = () => {
-    //   setPasswordLength('');
-    //   setIsUpperChecked(false);
-    //   setIsLowerChecked(false);
-    //   setIsSpecialChecked(false);
-    //   setIsNumberChecked(false);
-    //   setGeneratedPassword('');
+    const handleReset = () => {
+      setPasswordLength('');
+      setCheckboxVal({
+        upper: false,
+        lower: false,
+        special: false,
+        number: false,
+      });
+      setGeneratedPassword('');
+    };
   };
 
-  const updateCheckedStatus = (status: boolean) => {
-    console.log(`Checked Status: ${status}`);
-    // setCheckboxVal(status);
-    setUpperCheckboxVal(status);
+  //Updated checkbox values dynamically
+  const updateCheckedStatus = (id: string, status: boolean) => {
+    setCheckboxVal(prevState => ({
+      ...prevState,
+      [id]: status,
+    }));
+    console.log(`Checked Status: ${id}, ${status}`);
   };
 
   return (
@@ -65,31 +78,31 @@ function Main(): React.JSX.Element {
         setPasswordLength={setPasswordLength}
       />
       <FormCheckBox
-        id={1}
+        id="upper"
         color="#82c2e7"
         label="Upper Case Letter"
-        checkedStatus={upperCheckboxVal}
+        checkedStatus={checkboxVal.upper}
         updateCheckedStatus={updateCheckedStatus}
       />
       <FormCheckBox
-        id={2}
+        id="lower"
         color="#91a696"
         label="Lower Case Letter"
-        checkedStatus={checkboxVal}
+        checkedStatus={checkboxVal.lower}
         updateCheckedStatus={updateCheckedStatus}
       />
       <FormCheckBox
-        id={3}
+        id="special"
         color="#fd915a"
         label="Special Character"
-        checkedStatus={checkboxVal}
+        checkedStatus={checkboxVal.special}
         updateCheckedStatus={updateCheckedStatus}
       />
       <FormCheckBox
-        id={4}
+        id="number"
         color="#cc76ee"
         label="Numbers"
-        checkedStatus={checkboxVal}
+        checkedStatus={checkboxVal.number}
         updateCheckedStatus={updateCheckedStatus}
       />
       <Output
@@ -101,7 +114,7 @@ function Main(): React.JSX.Element {
         title="Generate Password"
         onPress={handleGeneratePassword}
       />
-      <Btn type={2} title="Reset" />
+      <Btn type={2} title="Reset" onPress={handleReset} />
     </View>
   );
 }

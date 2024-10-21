@@ -3,12 +3,11 @@ import {View, Text, StyleSheet} from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
 type formCheckBoxPropTypes = {
-  id: number;
+  id: string;
   label: string;
   color: string;
   checkedStatus: boolean;
-  updateCheckedStatus: (val: boolean) => void;
-  // onPress: () => void;
+  updateCheckedStatus: (id: string, val: boolean) => void;
 };
 
 function FormCheckBox(props: formCheckBoxPropTypes): React.JSX.Element {
@@ -21,6 +20,7 @@ function FormCheckBox(props: formCheckBoxPropTypes): React.JSX.Element {
   return (
     <View style={styles.checkboxView}>
       <BouncyCheckbox
+        id={id}
         isChecked={checkedStatus}
         size={25}
         fillColor={color}
@@ -31,7 +31,7 @@ function FormCheckBox(props: formCheckBoxPropTypes): React.JSX.Element {
         //textStyle={{fontFamily: 'JosefinSans-Regular'}}
         onPress={(isChecked: boolean) => {
           console.log(checkedStatus);
-          updateCheckedStatus(isChecked);
+          updateCheckedStatus(id, isChecked);
         }}
       />
       <Text style={styles.label}>{label}</Text>
